@@ -5,6 +5,7 @@ from random_word import RandomWords
 
 user = "EMAIL"
 passwd = "PASSWORD"
+victim = input("please input victim email here\n")
 
 def mail_sender():
     r = RandomWords()
@@ -15,10 +16,8 @@ def mail_sender():
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.login(user , passwd)
     server.sendmail(
-        #from acc
-        "your email", 
-        #to victim lol
-        "the victim email here", 
+        user,
+        victim,
         message)
     server.quit()
 
