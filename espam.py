@@ -3,8 +3,8 @@ import time
 import random
 from random_word import RandomWords
 
-user = "support@accounthelp.org"
-passwd = "asfJbuZoyQy243"
+user = "EMAIL"
+passwd = "PASSWORD"
 
 def mail_sender():
     r = RandomWords()
@@ -16,13 +16,11 @@ def mail_sender():
     server.login(user , passwd)
     server.sendmail(
         #from acc
-        "support@accounthelp.org", 
+        "your email", 
         #to victim lol
-        "johnnyjmolloy@gmail.com", 
+        "the victim email here", 
         message)
     server.quit()
-
-print("yo shitty test gui for now")
 
 def spam():
     spam_count = int(input("how many emails to send? MUST BE UNDER 125\n"))
@@ -36,6 +34,6 @@ def spam():
 
     else:
         print("the fuck wrong with u nigga\nthink about the shit u just did")
-        time.sleep(5)
+        time.sleep(2)
         exit()
 spam()
