@@ -22,6 +22,7 @@ def mail_sender():
     subject = w
     msg = x + " " + y + " " + z
     message = "Subject:" + subject + "\n" + msg
+#You can edit the line below to change to a different smtp service  
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.login(user , passwd)
     server.sendmail(
