@@ -27,16 +27,19 @@ print(faded)
 colorama.init()
 print(Fore.MAGENTA + "")
 
-user = "support@accounthelp.org"
-passwd = "asfJbuZoyQy243"
+user = "EMAIL HERE"
+passwd = "PASSWORD HERE"
+#you will need to make the file below yourself
 spamlist = open("email.txt", "r")
 emails = spamlist.readlines()
+#change to your html letter
 html = open("paypal.html")
 
 
 def targs():
     count = 0
     msg = MIMEText(html.read(), "html")
+    #change the subject
     msg["subject"] = "Your Account has been locked"
     for i in emails:
         count += 1
