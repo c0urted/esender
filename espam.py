@@ -37,13 +37,13 @@ def sms_sender():
     x = r.get_random_word()
     y = r.get_random_word()
     z = r.get_random_word()
-    msg = x + " " + y + " " + z
+    sms_msg = x + " " + y + " " + z
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.login(user , passwd)
     server.sendmail(
         user,
         victim,
-        msg)
+        sms_msg)
     server.quit()
 
 def sms_spam():
@@ -79,9 +79,10 @@ def spam():
             print("message sent!")
             zzz = random.randint(1,9)
             time.sleep(zzz)
-spam()
 
 if isnum.lower().startswith("y") == True:
     sms_spam()
-else:
+elif isnum.lower().startswith("n") == True:
     spam()
+else:
+    print("try again")
