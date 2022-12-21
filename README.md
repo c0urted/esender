@@ -13,4 +13,9 @@ made for gsuite accs. go [here](https://www.google.com/settings/security/lesssec
 [list of sms gateways for mobile spamming](https://en.wikipedia.org/wiki/SMS_gateway)
 
 
+pic of espam
 ![image](https://user-images.githubusercontent.com/65371714/208268545-70a0a0f1-65c8-4739-93c2-203c9c51e294.png)
+
+
+pic of sender
+![image](https://user-images.githubusercontent.com/65371714/208939823-133981e6-6d57-4218-a25d-39b5dbd64f8d.png)
