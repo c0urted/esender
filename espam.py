@@ -51,8 +51,7 @@ def sms_spam():
     for i in range(spam_count):
             sms_sender()
             print("sms message sent!")
-            zzz = random.randint(1,9)
-            time.sleep(zzz)
+            time.sleep(0.1)
 
 
 def mail_sender():
@@ -77,8 +76,7 @@ def spam():
     for i in range(spam_count):
             mail_sender()
             print("message sent!")
-            zzz = random.randint(1,9)
-            time.sleep(zzz)
+            time.sleep(0.1)
 
 if isnum.lower().startswith("y") == True:
     sms_spam()
