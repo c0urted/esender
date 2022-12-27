@@ -25,6 +25,7 @@ print(faded)
 colorama.init()
 print(Fore.MAGENTA + "")
 
+#smtp server login here
 user = "EMAIL HERE"
 passwd = "PASSWORD HERE"
 
@@ -32,12 +33,19 @@ print("sms format is like 1234567890@txt.att.net")
 victim = input("please input victim email or phone here\n")
 isnum = input("is this a number [Y/N]")
 
+xyz = random.randint(0,100000)
+idnum = xyz
+
+def supportnum():
+    global idnum
+    idnum += 1
+
 def sms_sender():
     r = RandomWords()
     x = r.get_random_word()
     y = r.get_random_word()
     z = r.get_random_word()
-    sms_msg = x + " " + y + " " + z
+    sms_msg = "[" + idnum + "]" + "\n" + x + " " + y + " " + z
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.login(user , passwd)
     server.sendmail(
@@ -50,9 +58,9 @@ def sms_spam():
     spam_count = int(input("how many texts to send?"))
     for i in range(spam_count):
             sms_sender()
-            print("sms message sent!")
+            supportnum()
+            print("message sent with ID [{}]!".format(idnum))
             time.sleep(0.1)
-
 
 def mail_sender():
     r = RandomWords()
@@ -60,8 +68,8 @@ def mail_sender():
     x = r.get_random_word()
     y = r.get_random_word()
     z = r.get_random_word()
-    subject = w
-    msg = x + " " + y + " " + z
+    subject = "[{}]".format(idnum)
+    msg = w + " " + x + " " + y + " " + z
     message = "Subject:" + subject + "\n" + msg
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.login(user , passwd)
@@ -75,7 +83,8 @@ def spam():
     spam_count = int(input("how many emails to send?"))
     for i in range(spam_count):
             mail_sender()
-            print("message sent!")
+            supportnum()
+            print("message sent with ID [{}]!".format(idnum))
             time.sleep(0.1)
 
 if isnum.lower().startswith("y") == True:
