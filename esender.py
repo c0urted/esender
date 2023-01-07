@@ -1,4 +1,3 @@
-
 import smtplib
 import time
 import random
@@ -6,7 +5,6 @@ import os
 import fade
 import colorama
 from colorama import Fore, Back, Style
-from random_word import RandomWords
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -28,15 +26,23 @@ print(faded)
 colorama.init()
 print(Fore.MAGENTA + "")
 
-user = ""
-passwd = ""
+xyz = random.randint(0,100000)
+idnum = xyz
+user = "USERNAME HERE"
+passwd = "PASSWORD HERE"
 spamlist = open("email.txt", "r")
-html = open("paypal.html")      # change to your scampage name
+html = open("paypal.html")      # change to your letter in the same folder
+
+def supportnum():
+    global idnum
+    idnum += 1
+
 
 def targs():
     msg = MIMEText(html.read(), "html")
-    msg["subject"] = "Your Account has been locked"
+    msg["subject"] = "Account Case [{}]".format(idnum)
     for i in spamlist:
+        supportnum()
         server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         server.login(user , passwd)
         server.sendmail(
@@ -45,7 +51,10 @@ def targs():
             msg.as_string())
         server.quit()
         print("message sent to", i)
-        time.sleep(1)
+        x = random.randint(1,15)
+        time.sleep(x)
+
+## sms isnt finished bcs these drugs aint gonna do themselves
 
 def sms():
     message = "Your account has been locked. Please sign on to unlock it\nhttps://PayPal.com/"
@@ -60,7 +69,7 @@ def sms():
         print("message sent to", i)
         time.sleep(1)
 
-run = input("Are you spamming Emails or SMS?\n1) emails\n2) SMS")
+run = input("Are you spamming Emails or SMS?\n1) emails\n2) SMS\n")
 if run.startswith("1"):
     targs()
 elif run.startswith("2"):
