@@ -5,7 +5,6 @@ import os
 import fade
 import colorama
 from colorama import Fore, Back, Style
-from random_word import RandomWords
 
 fade_me = """
 8888888888 .d8888b.                                  
@@ -25,27 +24,31 @@ print(faded)
 colorama.init()
 print(Fore.MAGENTA + "")
 
-#smtp server login here
-user = "EMAIL HERE"
-passwd = "PASSWORD HERE"
+#SMTP SERVER LOGIN
+user = "username here"
+passwd = "password here"
+xyz = random.randint(0,100000)
+idnum = xyz
 
 print("sms format is like 1234567890@txt.att.net")
 victim = input("please input victim email or phone here\n")
-isnum = input("is this a number [Y/N]")
+isnum = input("is this a number [Y/N]\n")
 
-xyz = random.randint(0,100000)
-idnum = xyz
+wordlist = open("wordlist.txt", "r")
+wordlist_data = wordlist.readlines()
+
 
 def supportnum():
     global idnum
     idnum += 1
 
+
 def sms_sender():
-    r = RandomWords()
-    x = r.get_random_word()
-    y = r.get_random_word()
-    z = r.get_random_word()
-    sms_msg = "[" + idnum + "]" + "\n" + x + " " + y + " " + z
+    w = random.choice(wordlist_data)
+    x = random.choice(wordlist_data)
+    y = random.choice(wordlist_data)
+    z = random.choice(wordlist_data)
+    sms_msg = "[" + str(idnum) + "]" + "\n" + x + " " + y + " " + z
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.login(user , passwd)
     server.sendmail(
@@ -55,19 +58,20 @@ def sms_sender():
     server.quit()
 
 def sms_spam():
-    spam_count = int(input("how many texts to send?"))
+    spam_count = int(input("how many texts to send?\n"))
     for i in range(spam_count):
             sms_sender()
             supportnum()
             print("message sent with ID [{}]!".format(idnum))
-            time.sleep(0.1)
+            rand_num = random.randint(0,5)
+            time.sleep(rand_num)
+
 
 def mail_sender():
-    r = RandomWords()
-    w = r.get_random_word()
-    x = r.get_random_word()
-    y = r.get_random_word()
-    z = r.get_random_word()
+    w = random.choice(wordlist_data)
+    x = random.choice(wordlist_data)
+    y = random.choice(wordlist_data)
+    z = random.choice(wordlist_data)
     subject = "[{}]".format(idnum)
     msg = w + " " + x + " " + y + " " + z
     message = "Subject:" + subject + "\n" + msg
@@ -85,7 +89,8 @@ def spam():
             mail_sender()
             supportnum()
             print("message sent with ID [{}]!".format(idnum))
-            time.sleep(0.1)
+            rand_num = random.randint(0,5)
+            time.sleep(rand_num)
 
 if isnum.lower().startswith("y") == True:
     sms_spam()
