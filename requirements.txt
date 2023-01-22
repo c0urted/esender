@@ -1,7 +1,2 @@
-import smtplib
-import time
-import random
-import os
-import fade
-import colorama
-from colorama import Fore, Back, Style
+colorama==0.4.4
+fade==0.0.9
