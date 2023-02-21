@@ -1,23 +1,16 @@
 # espam
-espam.py is an email/sms bomber for sending a flood of messages to hide important messages from them
+Espam is an email/sms sender and bomber that will someday be an AIO. just not today
 
 
 
-esender.py is an email and sms sender. email sends html files and sms sends messages
-
-
-
-made for gsuite accs. go [here](https://www.google.com/settings/security/lesssecureapps) and turn the setting on. You might also have to go [here](https://accounts.google.com/DisplayUnlockCaptcha) and complete it
-
+made for gsuite accs but can be changed to work with everything. go [here](https://www.google.com/settings/security/lesssecureapps) and turn the setting on. You might also have to go [here](https://accounts.google.com/DisplayUnlockCaptcha) and complete it
 
 
 [list of sms gateways for mobile spamming](https://en.wikipedia.org/wiki/SMS_gateway)
 
 
-
 pic of espam
-![image](https://user-images.githubusercontent.com/65371714/213895846-4828ad14-0ace-4884-9465-caf1c54837ef.png)
-![image](https://user-images.githubusercontent.com/65371714/208268545-70a0a0f1-65c8-4739-93c2-203c9c51e294.png)
+![image](https://user-images.githubusercontent.com/65371714/220484475-71dd6521-09c0-40ed-a5c5-6c6d3b00fe60.png)
 
 
 How to setup:
