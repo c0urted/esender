@@ -10,7 +10,8 @@ made for gsuite accs but can be changed to work with everything. go [here](https
 
 
 pic of espam
-![image](https://user-images.githubusercontent.com/65371714/220484475-71dd6521-09c0-40ed-a5c5-6c6d3b00fe60.png)
+![image](https://user-images.githubusercontent.com/65371714/230798430-0edac45d-899c-4e15-bfed-e38d685a05f5.png)
+
 
 
 How to setup:
