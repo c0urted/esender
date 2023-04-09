@@ -10,7 +10,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 # Esender by c0urted
-# Dont skid the src
 # Todo:
 #  add unicode invis symbols to get around spam filters
 #  fix user input so it only takes numbers
@@ -33,7 +32,14 @@ fade_me = """
 
 xyz = random.randint(0,1000000)
 idnum = xyz
-spamlist = open("spamlist.txt", "r")
+try:
+    spamlist = open("spamlist.txt", "r")
+except FileNotFoundError:
+    print("file not found")
+    spamlist = open("spamlist.txt", "w+")
+    print("empty spamlist.txt created. Please enter your targs there and restart esender")
+    time.sleep(5)
+
 
 def main():
     clear_terminal()
@@ -41,12 +47,12 @@ def main():
     clear_terminal()
     while menu_options > 3 or menu_options <=0:
         menu_options = int(input("How could you fuck this up?? Just press a fucking number!!\n1) SMS Sendouts\n2) Email Sendouts\n3) Exit\n"))
-# login info goes here
-    email = "smtp email"
-    passwd = "smtp password"
-    smtp_address = "smtp server"
+# login for smtp server here
+# :======)
+    email = "Put SMTP email here"
+    passwd = "Put SMTP password here"
+    smtp_address = "smtp.gmail.com"
     smtp_port = 465
-# login info goes here
     clear_terminal()
     if menu_options == 1:
         sms(email, passwd, smtp_address, smtp_port)
@@ -59,6 +65,12 @@ def main():
             email_letter_sendout(email, passwd, smtp_address, smtp_port)
         else:
             email_sendout(email, passwd, smtp_address, smtp_port)
+    elif menu_options == 3:
+        #################
+        # add email validator
+        # 
+        #################
+        pass
     else:
         exit
 
@@ -78,6 +90,8 @@ def supportnum():
     idnum += 1
 
 def email_letter_sendout(user, passwd, smtp_address, smtp_port):
+    # Remove the .SMTP_SSL if your smtp server doesnt support ssl
+    # replace it with smtplib.SMTP instead
     server = smtplib.SMTP_SSL(smtp_address, smtp_port)
     server.login(user, passwd)
     html = open("paypal.html")
