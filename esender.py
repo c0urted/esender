@@ -46,7 +46,6 @@ def main():
     while menu_options > 3 or menu_options <=0:
         menu_options = int(input("How could you fuck this up?? Just press a fucking number!!\n1) SMS Sendouts\n2) Email Sendouts\n3) Exit\n"))
 # login for smtp server here
-# :======)
     email = "Put SMTP email here"
     passwd = "Put SMTP password here"
     smtp_address = "smtp.gmail.com"
