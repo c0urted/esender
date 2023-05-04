@@ -1,5 +1,5 @@
-# espam
-Espam is an email/sms sender and bomber that will someday be an AIO. just not today
+# Esender
+Esender does shit
 
 
 
@@ -12,10 +12,3 @@ made for gsuite accs but can be changed to work with everything. go [here](https
 pic of espam
 ![image](https://user-images.githubusercontent.com/65371714/230798430-0edac45d-899c-4e15-bfed-e38d685a05f5.png)
 
-
-
-How to setup:
-download the proj
-open cmd where the files are
-do "pip install -r requirements.txt"
-enjoy
