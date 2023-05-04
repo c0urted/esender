@@ -13,7 +13,6 @@ from email.mime.text import MIMEText
 # Todo:
 #  add unicode invis symbols to get around spam filters
 #  fix user input so it only takes numbers
-#
 
 fade_me = """
 8888888888 .d8888b.                                  
