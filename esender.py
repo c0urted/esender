@@ -9,14 +9,26 @@ import colorama
 from colorama import Fore, Back, Style
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import json
 
 RECIPIENTS = "recipients.txt"
 SENDERS = "sender_list.txt"
 
-SMTP_USERNAME = ""  # todo: move this to an .env or config file to avoid upload
-SMTP_PASSWORD = ""  # todo: move this to an .env or config file to avoid upload
-SMTP_SERVER = "smtp.gmail.com"
-SMTP_PORT = 456
+def read_config():
+    try:
+        with open("config.json", "r") as config_file:
+            config = json.load(config_file)
+            return config
+    except FileNotFoundError:
+        print("[X] Config file 'config.json` not found. Please create the file with SMTP configuration.")
+        sys.exit(-1)
+
+config = read_config()
+SMTP_USERNAME = config["SMTP_USERNAME"] 
+SMTP_PASSWORD = config["SMTP_PASSWORD"]
+SMTP_SERVER = config["SMTP_SERVER"]
+SMTP_PORT = config["SMTP_PORT"]
+
 
 # Esender by c0urted
 # Todo:
@@ -39,14 +51,6 @@ START_MSG = """
 # todo: remove this to another section (inside main?)
 account_case = random.randint(0, 1000000)
 
-# try:
-#     recipient_list = open(RECIPIENTS, "r")
-# except FileNotFoundError:
-#     print("[X] File 'recipients.txt` not found. Please read the README file.")
-#     recipient_list = open(RECIPIENTS, "w+")
-#     print("[-] Empty 'recipients.txt` file created. Enter your email recipients there and restart the script.")
-#     sys.exit(-1)
-
 
 def main():
     try:
@@ -61,23 +65,19 @@ def main():
     menu_options = get_menu_option()
     clear_terminal()
 
-    # get login details for smtp server here
-    email = "Put SMTP email here"
-    passwd = "Put SMTP password here"
-    smtp_address = "smtp.gmail.com"
-    smtp_port = 465
+
     clear_terminal()
     if menu_options == 1:
-        sms(email, passwd, smtp_address, smtp_port)
+        sms(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
     elif menu_options == 2:
         clear_terminal()
         letter_choice = int(input("Do you have a letter to use?\n1) Yes\n2) No\n"))
         while letter_choice < 1 or letter_choice > 2:
             print("Fix your input retard. 1 or 2 its not that fucking hard\n")
         if letter_choice == 1:
-            email_letter_sendout(email, passwd, smtp_address, smtp_port)
+            email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
         else:
-            email_sendout(email, passwd, smtp_address, smtp_port)
+            email_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
     elif menu_options == 3:
         # todo: add email validator
         pass
@@ -124,12 +124,12 @@ def supportnum() -> None:
     account_case += 1
 
 
-def email_letter_sendout(user, passwd, smtp_address, smtp_port) -> None:
+def email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT) -> None:
     # Remove the .SMTP_SSL if your smtp server doesn't support SSL/TLS
     # Replace it with smtplib.SMTP instead
     try:
-        server = smtplib.SMTP_SSL(smtp_address, smtp_port)
-        server.login(user, passwd)
+        server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
+        server.login(SMTP_USERNAME, SMTP_PASSWORD)
         # todo: make it so ppl can change the file name for html letter and subject
         html = open("paypal.html")
         msg = MIMEText(html.read(), "html")
@@ -137,7 +137,7 @@ def email_letter_sendout(user, passwd, smtp_address, smtp_port) -> None:
         for i in recipient_list:
             supportnum()
             # send the email to the user with the msg content
-            server.sendmail(user, i, msg.as_string())
+            server.sendmail(SMTP_USERNAME, i, msg.as_string())
             print(f"[-] Message sent to '{i}'")
             # quit from the email server after a random time to evade detection and
             # todo: this should be async/threaded so it doesn't block other sends
@@ -148,16 +148,16 @@ def email_letter_sendout(user, passwd, smtp_address, smtp_port) -> None:
         print(f"Oops something went wrong. Error output on the next line.\n{fuckup}")
         time.sleep(10)
 
-def email_sendout(user, passwd, smtp_address, smtp_port):
+def email_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT):
     try:
-        server = smtplib.SMTP_SSL(smtp_address, smtp_port)
-        server.login(user, passwd)
+        server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
+        server.login(SMTP_USERNAME, SMTP_PASSWORD)
         msg = MIMEText("Message here")
         msg["subject"] = f"Account Case [{account_case}]"
         for i in recipient_list:
             supportnum()
             server.sendmail(
-                user,
+                SMTP_USERNAME,
                 i,
                 msg.as_string())
             server.quit()
@@ -168,18 +168,18 @@ def email_sendout(user, passwd, smtp_address, smtp_port):
         print(f"Oops something went wrong. Error output on the next line.\n{fuckup}")
         time.sleep(10)
 
-def sms(user, passwd, smtp_address, smtp_port):
+def sms(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT):
     # todo: add loop to retry failed sends
     try:
-        server = smtplib.SMTP_SSL(smtp_address, smtp_port)
-        server.login(user, passwd)
+        server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
+        server.login(SMTP_USERNAME, SMTP_PASSWORD)
         date_alert = datetime.datetime.now() + datetime.timedelta(days=30)
         # todo: message should be changed to an official paypal HTML email
         message = f"PayPal Account Service DPT\nCase[{account_case}]\nYour account has been locked due to fraudulent activity. " \
                     f"Please contact us by:{date_alert:%m-%d-%Y} or the account will be permanently disabled."
         for i in recipient_list:
             server.sendmail(
-                user,
+                SMTP_USERNAME,
                 i,
                 message)
             server.quit()

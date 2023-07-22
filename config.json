@@ -1,0 +1,6 @@
+{
+    "SMTP_USERNAME": "your_smtp_username",
+    "SMTP_PASSWORD": "your_smtp_password",
+    "SMTP_SERVER": "your_smtp_server",
+    "SMTP_PORT": 465
+} 
