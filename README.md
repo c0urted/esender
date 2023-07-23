@@ -8,29 +8,34 @@
 
 ## Features
 Email Sendouts: Send emails to multiple recipients using a specified SMTP server.
+
 SMS Sendouts: Send SMS messages to multiple recipients using a specified SMTP server.
+
 Email Letter Support: Choose to send emails with a pre-defined HTML letter or simple text content.
+
 Email Validation (TODO): Validate email addresses to check if they are valid and active.
-SMTP Configuration: Read SMTP configuration from a config.json file for easy setup.
+
+
 UTF-8 Encoding (TODO): Include special characters and Unicode symbols in emails to avoid spam filters or enhance content appearance.
 
-Requirements
-Python 3.6 or higher
-Setup
-Clone the repository to your local machine:
 
-bash
-Copy code
-git clone https://github.com/your-username/esender.git
+## Requirements
+Python 3.6 or higher
+
+## Setup
+
 
 Install the required Python packages:
 
-Copy code
+
 pip install -r requirements.txt
+
 
 Create a recipients.txt file and list the email or phone numbers of targets, each on a separate line.
 
+
 Change the config.json to include your smtp information:
+
 
 {
     "SMTP_USERNAME": "your_smtp_username",
@@ -38,6 +43,7 @@ Change the config.json to include your smtp information:
     "SMTP_SERVER": "your_smtp_server",
     "SMTP_PORT": 587
 }
+
 Note: The SMTP_PORT value may vary depending on your SMTP server's configuration.
 
 Usage
