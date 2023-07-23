@@ -14,7 +14,7 @@ import json
 RECIPIENTS = "recipients.txt"
 SENDERS = "sender_list.txt"
 
-def read_config():
+def read_config() -> str:
     try:
         with open("config.json", "r") as config_file:
             config = json.load(config_file)
@@ -33,6 +33,7 @@ SMTP_PORT = config["SMTP_PORT"]
 # Esender by c0urted
 # Todo:
 #  add unicode invis symbols to get around spam filters
+#  add utf-8 encoding for html letters
 #  fix user input so it only takes numbers
 
 START_MSG = """
@@ -61,6 +62,8 @@ def main():
         recipient_list = open(RECIPIENTS, "w+")
         print("[-] Empty 'recipients.txt` file created. Enter your email recipients there and restart the script.")
         sys.exit(-1)
+    except Exception as e:
+        print(f"[X] {e}")
     # loop until we get valid input from the menu
     menu_options = get_menu_option()
     clear_terminal()
@@ -71,9 +74,18 @@ def main():
         sms(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
     elif menu_options == 2:
         clear_terminal()
-        letter_choice = int(input("Do you have a letter to use?\n1) Yes\n2) No\n"))
-        while letter_choice < 1 or letter_choice > 2:
-            print("Fix your input retard. 1 or 2 its not that fucking hard\n")
+        print("[*] Do you have a letter to use?")
+        print("[1] Yes")
+        print("[2] No")
+        letter_choice = None
+        while letter_choice is None:
+            try:
+                letter_choice = int(input("[*] Please enter your choice: "))
+                if letter_choice not in [1, 2]:
+                    raise ValueError
+            except ValueError:
+                print("[X] Invalid input. Please enter 1 or 2.")
+                letter_choice = None
         if letter_choice == 1:
             email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
         else:
@@ -107,8 +119,8 @@ def get_menu_option() -> int:
         return_input = None  # ensure the menu loops
 
 
-# clears terminal and prints menu logo
 def clear_terminal() -> None:
+    # function clears the terminal and prints menu logo
     # deinit keeps colorama from fucking up the fade module
     colorama.deinit()
     os.system("cls")
@@ -133,7 +145,7 @@ def email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT) -
         # todo: make it so ppl can change the file name for html letter and subject
         html = open("paypal.html")
         msg = MIMEText(html.read(), "html")
-        msg["subject"] = f"Account Case [{account_case}]"
+        msg["subject"] = f"Account Case [{account_case}]".encode('utf-8')
         for i in recipient_list:
             supportnum()
             # send the email to the user with the msg content
