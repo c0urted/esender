@@ -1,9 +1,9 @@
-Esender
-Esender is a Python script that allows you to send out emails and SMS messages to multiple recipients using a specified SMTP server. The script provides a simple command-line menu interface that lets you choose between email and SMS sendouts.
+#**Esender**
+###Esender aims to be an AIO spamming toolkit. The script provides a simple command-line menu interface that is easy to navigate.
 
 Esender Logo
 
-Features
+##**Features**
 Email Sendouts: Send emails to multiple recipients using a specified SMTP server.
 SMS Sendouts: Send SMS messages to multiple recipients using a specified SMTP server.
 Email Letter Support: Choose to send emails with a pre-defined HTML letter or simple text content.
