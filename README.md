@@ -2,9 +2,11 @@
 
 ### Esender aims to be an AIO spamming toolkit. The script provides a simple command-line menu interface that is easy to navigate.
 
-Esender Logo
 
-##**Features**
+![image](https://github.com/c0urted/esender/assets/65371714/a015feed-142a-4c08-a8b7-0a42ac349a5a)
+
+
+## Features
 Email Sendouts: Send emails to multiple recipients using a specified SMTP server.
 SMS Sendouts: Send SMS messages to multiple recipients using a specified SMTP server.
 Email Letter Support: Choose to send emails with a pre-defined HTML letter or simple text content.
@@ -41,17 +43,17 @@ Note: The SMTP_PORT value may vary depending on your SMTP server's configuration
 Usage
 Run the esender.py script to start the command-line interface:
 
-Copy code
 python esender.py
+
 Follow the on-screen instructions to choose between email and SMS sendouts and provide the required information when prompted.
 
-Disclaimer
+## Disclaimer
 This script is intended for ethical and legal use only. Do not use it for spamming or any malicious activities. The author is not responsible for any misuse of this script.
 
-Contributing
+## Contributing
 Contributions are welcome! Feel free to submit bug reports, feature requests, or pull requests to help improve the script.
 
-Contact
+## Contact
 If you have any questions or need assistance, feel free to contact the author:
 
 Email: courted@xmpp.jp
