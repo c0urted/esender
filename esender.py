@@ -14,6 +14,17 @@ import json
 RECIPIENTS = "recipients.txt"
 SENDERS = "sender_list.txt"
 
+INVIS_CHARS = [
+    '\u0009', '\u0020', '\u00A0', '\u00AD', '\u034F', '\u061C', '\u070F',
+    '\u115F', '\u1160', '\u1680', '\u17B4', '\u17B5', '\u180E', '\u2000',
+    '\u2001', '\u2002', '\u2003', '\u2004', '\u2005', '\u2006', '\u2007',
+    '\u2008', '\u2009', '\u200A', '\u200B', '\u200C', '\u200D', '\u200E',
+    '\u200F', '\u202F', '\u205F', '\u2060', '\u2061', '\u2062', '\u2063',
+    '\u2064', '\u206A', '\u206B', '\u206C', '\u206D', '\u206E', '\u206F',
+    '\u3000', '\u2800', '\u3164', '\uFEFF', '\uFFA0', '\u110B1', '\u1BCA0',
+    '\u1BCA1', '\u1BCA2', '\u1BCA3', '\u1D159', '\u1D173', '\u1D174',
+    '\u1D175', '\u1D176', '\u1D177', '\u1D178', '\u1D179', '\u1D17A']
+
 def read_config() -> str:
     try:
         with open("config.json", "r") as config_file:
@@ -28,7 +39,6 @@ SMTP_USERNAME = config["SMTP_USERNAME"]
 SMTP_PASSWORD = config["SMTP_PASSWORD"]
 SMTP_SERVER = config["SMTP_SERVER"]
 SMTP_PORT = config["SMTP_PORT"]
-
 
 # Esender by c0urted
 # Todo:
@@ -87,7 +97,25 @@ def main():
                 print("[X] Invalid input. Please enter 1 or 2.")
                 letter_choice = None
         if letter_choice == 1:
-            email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
+            print("[*] Do you want to use unicode characters to bypass spam filters?")
+            print("[1] Yes")
+            print("[2] No")
+            unicode_choice = None
+            while unicode_choice is None:
+                try:
+                    unicode_choice = int(input("[*] Please enter your choice: "))
+                    if unicode_choice not in [1, 2]:
+                        raise ValueError
+                except ValueError:
+                    print("[X] Invalid input. Please enter 1 or 2.")
+                    unicode_choice = None
+            if unicode_choice == 1:
+                pass
+            if unicode_choice == 2:
+                pass
+            else:
+                print("[X] Unknown Fuckup")
+            #email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
         else:
             email_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
     elif menu_options == 3:
@@ -95,6 +123,29 @@ def main():
         pass
     else:
         sys.exit(0)
+
+
+def unicode_antispam_bypass() -> None:
+        print("[*] Do you want to use unicode characters to bypass spam filters?")
+        print("[1] Yes")
+        print("[2] No")
+        unicode_choice = None
+        while unicode_choice is None:
+            try:
+                unicode_choice = int(input("[*] Please enter your choice: "))
+                if unicode_choice not in [1, 2]:
+                    raise ValueError
+            except ValueError:
+                print("[X] Invalid input. Please enter 1 or 2.")
+                unicode_choice = None
+        if unicode_choice == 1:
+            clear_terminal()
+            email_subject = input("[*] Please enter the email subject\n")
+            # randomly loop thru email_subject and add invisible unicode
+            # make it work with both the email header and body
+        else:
+            pass
+
 
 
 def get_menu_option() -> int:
@@ -118,7 +169,6 @@ def get_menu_option() -> int:
             print(f"[X] Failed parsing menu option. Try again. Error: {e}")
         return_input = None  # ensure the menu loops
 
-
 def clear_terminal() -> None:
     # function clears the terminal and prints menu logo
     # deinit keeps colorama from fucking up the fade module
@@ -130,11 +180,9 @@ def clear_terminal() -> None:
     colorama.init()
     print(Fore.MAGENTA, "")
 
-
 def supportnum() -> None:
     global account_case
     account_case += 1
-
 
 def email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT) -> None:
     # Remove the .SMTP_SSL if your smtp server doesn't support SSL/TLS
