@@ -10,6 +10,7 @@ from colorama import Fore, Back, Style
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import json
+import threading
 
 RECIPIENTS = "recipients.txt"
 SENDERS = "sender_list.txt"
@@ -39,12 +40,13 @@ SMTP_USERNAME = config["SMTP_USERNAME"]
 SMTP_PASSWORD = config["SMTP_PASSWORD"]
 SMTP_SERVER = config["SMTP_SERVER"]
 SMTP_PORT = config["SMTP_PORT"]
+EMAIL_SUBJECT = config["EMAIL_SUBJECT"]
+EMAIL_LETTER = config["EMAIL_LETTER"]
 
 # Esender by c0urted
 # Todo:
 #  add unicode invis symbols to get around spam filters
 #  add utf-8 encoding for html letters
-#  fix user input so it only takes numbers
 
 START_MSG = """
 8888888888 .d8888b.                                  
@@ -59,9 +61,6 @@ START_MSG = """
                      888                             
                      888                      By: c0urted"""
 
-# todo: remove this to another section (inside main?)
-account_case = random.randint(0, 1000000)
-
 
 def main():
     try:
@@ -74,6 +73,7 @@ def main():
         sys.exit(-1)
     except Exception as e:
         print(f"[X] {e}")
+        
     # loop until we get valid input from the menu
     menu_options = get_menu_option()
     clear_terminal()
@@ -110,43 +110,46 @@ def main():
                     print("[X] Invalid input. Please enter 1 or 2.")
                     unicode_choice = None
             if unicode_choice == 1:
-                pass
-            if unicode_choice == 2:
+                email_letter_unicode_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
+            else:
+                email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
+        else:
+            unicode_menu_option()
+            if unicode_choice == 1:
+                #email_unicode_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
                 pass
             else:
-                print("[X] Unknown Fuckup")
-            #email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
-        else:
-            email_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
+                email_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
     elif menu_options == 3:
         # todo: add email validator
+        # use paid api bcs easier
         pass
     else:
         sys.exit(0)
 
 
-def unicode_antispam_bypass() -> None:
-        print("[*] Do you want to use unicode characters to bypass spam filters?")
-        print("[1] Yes")
-        print("[2] No")
-        unicode_choice = None
-        while unicode_choice is None:
-            try:
-                unicode_choice = int(input("[*] Please enter your choice: "))
-                if unicode_choice not in [1, 2]:
-                    raise ValueError
-            except ValueError:
-                print("[X] Invalid input. Please enter 1 or 2.")
-                unicode_choice = None
-        if unicode_choice == 1:
-            clear_terminal()
-            email_subject = input("[*] Please enter the email subject\n")
-            # randomly loop thru email_subject and add invisible unicode
-            # make it work with both the email header and body
-        else:
-            pass
+def unicode_antispam_bypass() -> str:
+    email_subject = EMAIL_SUBJECT
+    unicode_subject = ""
+    for char in email_subject:
+        unicode_subject += char + random.choice(INVIS_CHARS)
+    return unicode_subject
 
-
+def unicode_menu_option() -> int:
+    print("[*] Do you want to use unicode characters to bypass spam filters?")
+    print("[1] Yes")
+    print("[2] No")
+    unicode_choice = None
+    while unicode_choice is None:
+        try:
+            unicode_choice = int(input("[*] Please enter your choice: "))
+            if unicode_choice not in [1, 2]:
+                raise ValueError
+            else:
+                return unicode_choice
+        except ValueError:
+            print("[X] Invalid input. Please enter 1 or 2.")
+            unicode_choice = None
 
 def get_menu_option() -> int:
     return_input = None
@@ -170,7 +173,7 @@ def get_menu_option() -> int:
         return_input = None  # ensure the menu loops
 
 def clear_terminal() -> None:
-    # function clears the terminal and prints menu logo
+    # function clears the terminal and prints menu logo. dont fuck with it
     # deinit keeps colorama from fucking up the fade module
     colorama.deinit()
     os.system("cls")
@@ -182,6 +185,7 @@ def clear_terminal() -> None:
 
 def supportnum() -> None:
     global account_case
+    account_case = random.randint(0, 1000000)
     account_case += 1
 
 def email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT) -> None:
@@ -191,7 +195,7 @@ def email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT) -
         server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
         server.login(SMTP_USERNAME, SMTP_PASSWORD)
         # todo: make it so ppl can change the file name for html letter and subject
-        html = open("paypal.html")
+        html = open(EMAIL_LETTER)
         msg = MIMEText(html.read(), "html")
         msg["subject"] = f"Account Case [{account_case}]".encode('utf-8')
         for i in recipient_list:
@@ -201,6 +205,27 @@ def email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT) -
             print(f"[-] Message sent to '{i}'")
             # quit from the email server after a random time to evade detection and
             # todo: this should be async/threaded so it doesn't block other sends
+            x = random.randint(8, 20)
+            time.sleep(x)
+            server.quit()
+    except Exception as fuckup:
+        print(f"Oops something went wrong. Error output on the next line.\n{fuckup}")
+        time.sleep(10)
+
+def email_letter_unicode_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT) -> None:
+    # Remove the .SMTP_SSL if your smtp server doesn't support SSL/TLS
+    # Replace it with smtplib.SMTP instead
+    try:
+        server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
+        server.login(SMTP_USERNAME, SMTP_PASSWORD)
+        html = open(EMAIL_LETTER)
+        msg = MIMEText(html.read(), "html")
+        msg["subject"] = unicode_antispam_bypass()
+        for i in recipient_list:
+            supportnum()
+            # send the email to the user with the msg content
+            server.sendmail(SMTP_USERNAME, i, msg.as_string())
+            print(f"[-] Message sent to '{i}'")
             x = random.randint(8, 20)
             time.sleep(x)
             server.quit()
@@ -234,7 +259,7 @@ def sms(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT):
         server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
         server.login(SMTP_USERNAME, SMTP_PASSWORD)
         date_alert = datetime.datetime.now() + datetime.timedelta(days=30)
-        # todo: message should be changed to an official paypal HTML email
+        # todo: purge message before upload
         message = f"PayPal Account Service DPT\nCase[{account_case}]\nYour account has been locked due to fraudulent activity. " \
                     f"Please contact us by:{date_alert:%m-%d-%Y} or the account will be permanently disabled."
         for i in recipient_list:

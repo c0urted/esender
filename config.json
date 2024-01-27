@@ -2,5 +2,7 @@
     "SMTP_USERNAME": "your_smtp_username",
     "SMTP_PASSWORD": "your_smtp_password",
     "SMTP_SERVER": "your_smtp_server",
-    "SMTP_PORT": 465
+    "SMTP_PORT": 465,
+    "EMAIL_SUBJECT": "We need some information regarding your PayPal account. (Ref ID - PP-L-320641594438)",
+    "EMAIL_LETTER": "letter.html"
 } 
