@@ -97,24 +97,15 @@ def main():
                 print("[X] Invalid input. Please enter 1 or 2.")
                 letter_choice = None
         if letter_choice == 1:
-            print("[*] Do you want to use unicode characters to bypass spam filters?")
-            print("[1] Yes")
-            print("[2] No")
-            unicode_choice = None
-            while unicode_choice is None:
-                try:
-                    unicode_choice = int(input("[*] Please enter your choice: "))
-                    if unicode_choice not in [1, 2]:
-                        raise ValueError
-                except ValueError:
-                    print("[X] Invalid input. Please enter 1 or 2.")
-                    unicode_choice = None
+            unicode_choice = unicode_menu_option()
             if unicode_choice == 1:
                 email_letter_unicode_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
-            else:
+            elif unicode_choice == 2:
                 email_letter_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
+            else:
+                print("no work bb")
         else:
-            unicode_menu_option()
+            unicode_choice = unicode_menu_option()
             if unicode_choice == 1:
                 #email_unicode_sendout(SMTP_USERNAME, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT)
                 pass
