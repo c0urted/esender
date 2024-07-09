@@ -9,14 +9,13 @@
 ## Features
 Email Sendouts: Send emails to multiple recipients using a specified SMTP server.
 
-SMS Sendouts: Send SMS messages to multiple recipients using a specified SMTP server.
+email2SMS Sendouts: Send SMS messages to multiple recipients using a specified SMTP server.
 
 Email Letter Support: Choose to send emails with a pre-defined HTML letter or simple text content.
 
 Email Validation (TODO): Validate email addresses to check if they are valid and active.
 
-
-UTF-8 Encoding (TODO): Include special characters and Unicode symbols in emails to avoid spam filters or enhance content appearance.
+UTF-8 Encoding: Include special characters and Unicode symbols in emails to avoid spam filters or enhance content appearance.
 
 
 ## Requirements
@@ -58,13 +57,5 @@ This script is intended for ethical and legal use only. Do not use it for spammi
 
 ## Contributing
 Contributions are welcome! Feel free to submit bug reports, feature requests, or pull requests to help improve the script.
-
-## Contact
-If you have any questions or need assistance, feel free to contact the author:
-
-Email: courted@xmpp.jp
-
-
-Replace the placeholders like your-username, your_smtp_username, your_smtp_password, etc., with actual values and customize the content as needed. The README provides basic information about the script, how to set it up, use it, and gives appropriate credits to the author. Make sure to include appropriate links, logos, and contact details based on your preference.
 
 [list of sms gateways for mobile spamming](https://en.wikipedia.org/wiki/SMS_gateway)
