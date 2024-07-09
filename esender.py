@@ -46,6 +46,7 @@ EMAIL_LETTER = config["EMAIL_LETTER"]
 # Esender by c0urted
 # Todo:
 #  add unicode invis symbols to get around spam filters
+#  add function to auto encrypt html letters to hit more inboxes. must be unique
 #  add utf-8 encoding for html letters
 
 START_MSG = """
@@ -77,7 +78,6 @@ def main():
     # loop until we get valid input from the menu
     menu_options = get_menu_option()
     clear_terminal()
-
 
     clear_terminal()
     if menu_options == 1:
